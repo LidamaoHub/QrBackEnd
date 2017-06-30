@@ -1,0 +1,43 @@
+
+.container-fluid {
+    margin-top: 20px;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0px;
+}
+
+.img_del {
+    position: absolute;
+    top:0px;
+    right: 15px;
+    display: block;
+    width: 20px;
+    line-height: 20px;
+    height: 20px;
+    font-size: 18px;
+    background-color: rgba(0,0,0,.5);
+    color:white;
+    text-align: center;
+        
+}
+
+.new_img_upload {
+    border: 1px solid transparent;
+    &.undo{
+    border-color:red;
+    }
+}
+
+.img_upload_info {
+    height: 15px;
+    line-height: 15px;
+    font-size: 15px;
+    text-align: center;
+    background-color: rgba(0,0,0,.2);
+    color: white;
+    bottom: 0px;
+    left: 15px;
+    display: block;
+}
