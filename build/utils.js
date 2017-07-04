@@ -13,7 +13,10 @@ exports.cssLoaders = function (options) {
   options = options || {}
 
   var cssLoader = {
+      
     loader: 'css-loader',
+//    loader: 'css?modules&localIdentName=[name]__[local]-[hash:base64:5]',
+      
     options: {
       minimize: process.env.NODE_ENV === 'production',
       sourceMap: options.sourceMap
