@@ -8,7 +8,7 @@
                         <img :src="card.cover.url" alt="封面" v-if="card.cover">
                         <img src="../../assets/img/i.jpg" alt="封面" v-else>
                         <div class="caption">
-                            <h3 v-if="card.loc_name">{{ card.loc_name }}</h3>
+                            <h3 v-if="card.loc_name">{{ card.loc_name }}    场景id:{{card.id}}</h3>
                             <h3 v-else>未命名场景</h3>
                             <p v-if="card.content">{{ card.content }}</p>
                             <p v-else>未填写场景详细的介绍</p>

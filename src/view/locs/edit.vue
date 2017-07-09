@@ -6,8 +6,8 @@
                 <div class="col-md-6">
                     <div class="col-sm-6 col-md-8 center-block">
                         <div class="thumbnail">
-                            <img src="../../assets/img/i.jpg" alt="..." v-if="loc_info.img_list.length==0">
-                            <img :src="loc_info.img_list[0]['url']" alt="..." v-else>
+                            <img src="../../assets/img/i.jpg" alt="..." v-if="!loc_info.cover.url">
+                            <img :src="loc_info.cover.url" alt="..." v-else>
                             <div class="caption">
                                 <h3>{{loc_info.loc_name}}</h3>
                                 <p>{{loc_info.content}}</p>
@@ -54,16 +54,9 @@
                         <button type="submit" class="btn btn-default" @click="upload_img">
                             上传图片
                         </button>
-                        <p class="help-block">
-                            Example block-level help text here.
-                        </p>
+                        
                     </div>
-                    <div class="checkbox">
-
-                        <label>
-                            <input type="checkbox" /> Check me out
-                        </label>
-                    </div>
+                    
                     <button type="submit" class="btn btn-default" @click="save_loc">
                         保存
                     </button>
@@ -131,9 +124,14 @@
                             form_data.append("files", files)
                             self.$http.post(conf.url+"/upload_img", form_data).then(function (re) {
                                 if (!re.body.err) {
+                                    console.log("zjjkdhakls",re.body)
                                     self.loc_info.img_list[i]["upload"] = 2
                                     self.loc_info.img_list[i]["url"] = re.body.url
                                     self.loc_info.img_list[i]["info"] = ""
+                                    self.loc_info.img_list[i]["src"] = re.body.url
+                                    self.loc_info.img_list[i]["h"] = re.body.h
+                                    self.loc_info.img_list[i]["w"] = re.body.w
+
                                 }
                             })
                         }
@@ -149,7 +147,10 @@
                         return {
                             "url": x.url,
                             "upload": 2,
-                            "info": x.info
+                            "info": x.info,
+                            "src": x.url,
+                            "h":x.h,
+                            "w":x.w
                         }
                     })
                     if (img_l.length > 0 && Object.keys(self.loc_info.cover) == 0) {
@@ -182,6 +183,7 @@
                 }).then(function (re) {
                     if (!re.body.err) {
                         self.loc_info = re.body.loc_info
+                        console.log(self.loc_info.cover)
                     }
 
                 })
