@@ -34,10 +34,24 @@
                         </label>
                         <textarea class="form-control" id="exampleInputPassword1" v-model="loc_info.content"></textarea>
                     </div>
+
+
+                    <div class="form-group">
+                        <label>
+                            替换封面<span v-if="loc_info.cover==1" style="color: red"> 上传中</span>
+                        </label>
+                        <input type="file"  name="upload" @change="change_cover_img" style="display:none" id="cover_img_upload">
+                        <div class="row">
+                            <div class="col-md-3 col-xs-3" style="margin-bottom:20px" onclick="document.getElementById('cover_img_upload').click()">
+                            <img src="../../assets/img/add_img.jpg" style="border:1px dashed gray" alt="..." class="img-rounded img-responsive">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
 
-                        <label for="exampleInputFile">
-                            上传图片
+                        <label >
+                            相册图片
                         </label>
                         <input type="file" multiple name="upload" @change="prepare_img" style="display:none" id="add_img">
                         <div class="row">
@@ -56,9 +70,13 @@
                         </button>
                         
                     </div>
+
                     
-                    <button type="submit" class="btn btn-default" @click="save_loc">
-                        保存
+
+
+                    
+                    <button type="submit" class="btn btn-primary" @click="save_loc" style="margin-bottom: 10rem;">
+                        保存项目
                     </button>
                 </div>
             </div>
@@ -88,6 +106,38 @@
                 }
             },
             methods: {
+                change_cover_img:function(e){
+                    let self = this
+                    let files = e.target.files
+
+                    lrz(files[0]).then(function (r) {
+                        let temp_cover = 
+                        {
+                            "img_f": r.file,
+                            "url": r.base64,
+                            "upload": 0
+                        }
+                        // self.loc_info.cover = 
+                            var files = temp_cover.img_f
+                            self.loc_info.cover["upload"] = 1
+                            var form_data = new FormData()
+                            form_data.append("files", files)
+                            self.$http.post(conf.url+"/upload_img", form_data).then(function (re) {
+                                if (!re.body.err) {
+                                    self.loc_info.cover["upload"] = 2
+                                    self.loc_info.cover["url"] = re.body.url
+                                    self.loc_info.cover["info"] = ""
+                                    self.loc_info.cover["src"] = re.body.url
+                                    self.loc_info.cover["h"] = re.body.h
+                                    self.loc_info.cover["w"] = re.body.w
+
+                                }
+                            })
+
+
+                    })
+
+                },
                 prepare_img: function (e) {
                     var self = this
                     var files = e.target.files

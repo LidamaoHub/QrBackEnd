@@ -13,16 +13,16 @@
                         <div class="col-sm-10" id="chec">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" value="time_line" v-model="loc_list">话题
+                                    <input type="checkbox" value="time_line" v-model="column">话题
                                 </label>
                                 <label>
-                                    <input type="checkbox" value="reward" v-model="loc_list">捐赠
+                                    <input type="checkbox" value="reward" v-model="column">捐赠
                                 </label>
                                 <label>
-                                    <input type="checkbox" value="mall" v-model="loc_list">购物
+                                    <input type="checkbox" value="mall" v-model="column">购物
                                 </label>
                                 <label>
-                                    <input type="checkbox" value="notice" v-model="loc_list">公告
+                                    <input type="checkbox" value="notice" v-model="column">公告
                                 </label>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                             <button class="btn btn-default" @click="update_notice">
                                 保存
                             </button>
-                                                                <span  class="btn btn-default" role="button" @click="addBar">保1存</span>
+                            
 
                         </div>
                     </div>
@@ -155,26 +155,23 @@ import eventBus from '../../enentbus'
                 content:""
                 },
                 loc_id: "",
-                loc_list: [],
+                column: [],
 
             }
         },
         methods: {
-            addBar: function() {
-			// 触发事件
-			eventBus.$emit('addBar',1)	
-		},
+            //之后也不会有loc_list了
             update_col: function () {
                 let self = this
-                let loc_list = self.loc_list
-                console.log(loc_list.indexOf("time_line"))
-                if (loc_list.indexOf("time_line") < 0) {
-                    loc_list.push("time_line")
+                let column = self.column
+              
+                if (column.indexOf("time_line") < 0) {
+                    column.push("time_line")
 
                 }
                 self.$http.post(conf.url+"/update_loc", {
-                    "loc_info": JSON.stringify({
-                        "loc_list": loc_list
+                    "column": JSON.stringify({
+                        "column": column
                     }),
                     "loc_id": self.loc_id
                 }).then(function (re) {
