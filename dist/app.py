@@ -252,7 +252,7 @@ def get_topics():
 @app.route("/update_loc",methods=["POST"])
 @check_session
 def update_loc():
-    loc_update = json.loads(request.form["column"])
+    loc_update = json.loads(request.form["loc_info"])
     loc_id = request.form["loc_id"]
     loc = loc_db.find_one({"_id":ObjectId(loc_id),"creator":session["_id"]})
     if not loc:

@@ -170,7 +170,7 @@ import eventBus from '../../enentbus'
 
                 }
                 self.$http.post(conf.url+"/update_loc", {
-                    "column": JSON.stringify({
+                    "loc_info": JSON.stringify({
                         "column": column
                     }),
                     "loc_id": self.loc_id
@@ -199,8 +199,7 @@ import eventBus from '../../enentbus'
             },
             update_notice: function () {
                 let self = this
-                                console.log(self.notice.content)
-
+                console.log(self.notice.content)
                 if (self.notice != "") {
                     self.$http.post(conf.url+"/update_notice", {
                         "loc_id": self.loc_id,
