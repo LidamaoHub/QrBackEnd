@@ -17,7 +17,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">场景列表<strong class="caret"></strong></a>
                             <ul class="dropdown-menu">
                                 <li v-for="loc in loc_list">
-                                    <router-link :to="'/edit/'+loc._id+'/'">{{loc.loc_name}}</router-link>
+                                    <router-link :to="{path:'/edit/'+loc._id+'/'}">{{loc.loc_name}}</router-link>
                                 </li>
 
                                 <!--
@@ -53,7 +53,7 @@
                                 <li class="divider">
                                 </li>
                                 <li>
-                                    <a href="#">退出</a>
+                                    <a href="#" @click="quiet">退出</a>
                                 </li>
                             </ul>
                         </li>
@@ -86,35 +86,24 @@
                 self.$http.get(conf.url + "/get_locs").then(function (re) {
                     self.loc_list = re.body.locs
                 })
-//                self.$http.get(conf.url + "/get_group_info").then(function (re) {
-//                    if (!re.body.err) {
-//                        self.group_id = re.body.s.id
-//                    if(re.body.s.open_id!=''){
-//                        self.open_id = true
-//                    }
-//                    }
-//                }).then(function () {
-//                    console.log(self.open_id)
-//                    if (!self.open_id) {
-//                        let url = "http://wechat.diangezan.me/wechat_gate?redirect_url=" + conf.url + "/get_author_open_id/" + self.group_id
-//                        self.$http.post(conf.url + "/get_qr_url", {
-//                            "redirect_url": url
-//                        }).then(function (re2) {
-//                            console.log(re2)
-//                                if (!re2.body.err) {
-//                                    console.log(self.open_id_url)
-//                                    self.open_id_url = re2.body.url
-//                                    self.open_id = true
-//                                }
-//
-//                        })
-//                    }
-//                })
+            },
+            methods:{
+                quiet:function(){
+                    let self = this
+                    let t = confirm("你确定要退出当前账户吗?")
+                    if(t){
+                        self.$http.post(conf.url+"/quiet",{}).then(function(re){
+if(!re.body.err){
+    self.$router.push({
+        path:"/user/login"
+    })
+}
 
+                    })
+                    }
+                    
 
-
-
-
+                }
             }
 
 

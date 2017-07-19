@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <div class="center-block " style="width:400px;margin-top:100px">
+        <div class="center-block " style="max-width:400px;margin-top:100px">
             <h3 style="text-align:center">请先登录</h3>
             <div class="form-group">
                 <label for="exampleInputEmail1">输入你的账号</label>

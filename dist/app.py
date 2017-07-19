@@ -232,12 +232,12 @@ def get_locs():
 @app.route("/get_topics",methods=["GET","POST"])
 @check_session
 def get_topics():
-    group_id = s["_id"]
+    group_id = session["_id"]
     loc_id = request.form["loc_id"]
     loc = loc_db.find({"_id":ObjectId(loc_id),"creator":group_id})
     if loc.count():
         try:
-            group_loc_id = str(loc[0]["id"])
+            group_loc_id = int(loc[0]["id"])
             topic_list = get_list(topic_db.find({"loc_id":group_loc_id,"state":0}))
             return re({"topics":topic_list})
         except Exception,e:
@@ -489,6 +489,14 @@ def del_order():
     o_db.update({"_id":ObjectId(order_id)},{"$set":{"state":1}})
     return re({})
 # end mall
+@app.route("/quiet",methods=["GET","POST"])
+@check_session
+def quiet():
+    del session['username']
+
+    return re({})
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True,port=3333)

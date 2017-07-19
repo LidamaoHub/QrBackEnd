@@ -21,9 +21,7 @@
                     <li :class="{'active':$route.name=='MallOrder'}">
                         <router-link to="mall_order">商品订单</router-link>
                     </li>
-                    <li>
-                        {{fooCount}}
-                    </li>
+                    
                     
 <!--
                     <li :class="{'active':$route.name=='LocTag'}">
