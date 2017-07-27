@@ -28,6 +28,11 @@ import MallOrder from '../view/mall/o'
 import MallProduct from '../view/mall/p'
 import MallFront from '../view/c/index'
 
+import AdminHeader from '../view/admin/header'
+import AdminIndex from '../view/admin/index'
+import AdminNormal from '../view/admin/normal'
+import AdminBuyer from '../view/admin/buyer'
+
 Vue.use(Router)
 Vue.use(VueResource)
 Vue.use(Vuex)
@@ -133,10 +138,28 @@ export default new Router({
             ]
         },
         {
-            path: '/other',
+            path:'/admin',
+            name:"AdminDash",
+            component:AdminIndex,
+            children:[
+{
+    path: 'normal',
+                    name: 'AdminNormal',
+                    component: AdminNormal,
 
-            component: Other
+
+},
+{
+    path: 'buyer',
+                    name: 'AdminBuyer',
+                    component: AdminBuyer,
+
+
+}
+            ]
+
         }
+       
 
   ]
 })

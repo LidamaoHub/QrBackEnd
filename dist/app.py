@@ -290,7 +290,8 @@ def upload_img():
 @check_session
 def get_qr():
     loc_id = str(request.form["loc_id"])
-    url = "http://cli.im/api/qrcode/code?text=//%s/loc/%s&mhid=shbPWlvvmckhMHcsKdVcPKs" %(conf["server"]["server_name"],loc_id)
+    url = "http://cli.im/api/qrcode/code?text=//%s/loc/%s&mhid=shbPWlvvmckhMHcsKdVcPKs" %(conf["server"]["font_url"],loc_id)
+    print url
     h = "http:"+BeautifulSoup(requests.get(url).content).select(".qrcode_plugins_box_body img")[0].attrs["src"]
     return re({"url":h})
 
