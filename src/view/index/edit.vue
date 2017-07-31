@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-
+<div class="col-sm-6"></div>
         <div class="panel panel-default">
             <div class="panel-heading">栏目设置</div>
             <div class="panel-body">
@@ -77,19 +77,22 @@
             </div>
         </div>
         <div class="panel panel-default">
-            <div class="panel-heading">发送公告</div>
+            <div class="panel-heading">新增公告</div>
             <div class="panel-body">
                 <div class="form-horizontal" role="form">
 
                     <div class="form-group">
-                       <p>
+                       <p class="col-sm-12">
+                           <input name="" id="" class="form-control" placeholder="请填写标题" v-model="notice.title">
+                       </p>
+                       <p class="col-sm-12">
                            <textarea name="" id="" cols="30" class="form-control" rows="3" placeholder="请填写公告" v-model="notice.content">{{notice.content}}</textarea>
                        </p>
                         
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-default" @click="update_notice">
+                        <div class="col-sm-12">
+                            <button class="btn btn-default" @click="new_notice">
                                 保存
                             </button>
                             
@@ -152,6 +155,7 @@ import eventBus from '../../enentbus'
 
                 },
                 notice: {
+                    title:"",
                 content:""
                 },
                 loc_id: "",
@@ -197,20 +201,26 @@ import eventBus from '../../enentbus'
 
 
             },
-            update_notice: function () {
+            new_notice: function () {
                 let self = this
-                console.log(self.notice.content)
-                if (self.notice != "") {
-                    self.$http.post(conf.url+"/update_notice", {
+                if (self.notice != ""&&self.notice.content!=""&&self.notice.title!="") {
+                    self.$http.post(conf.url+"/new_notice", {
                         "loc_id": self.loc_id,
-                        "content": self.notice.content
+                        "content": self.notice.content,
+                        "title":self.notice.title
                     }).then(function (re) {
                         if (!re.body.err) {
-                            
-                            alert("搞定")
+                            let fa = confirm("确定发送?")
+                            if(fa){
+                                self.notice.content = ""
+                                self.notice.title = ""
+                                alert("发送成功")
+                            }
                         }
                     })
 
+                }else{
+                    alert("请填写内容")
                 }
 
 
@@ -228,6 +238,7 @@ import eventBus from '../../enentbus'
                     let loc_info = re.body.loc_info
                     self.loc_info = loc_info
                     self.loc_list = loc_info.loc_list
+                    self.column = loc_info.column
                 }
             })
             self.$http.post(conf.url+"/get_notice", {
@@ -238,6 +249,7 @@ import eventBus from '../../enentbus'
                     self.notice.content = re.body.content
                 }
             })
+            
 
 
         }

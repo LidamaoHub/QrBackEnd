@@ -117,7 +117,10 @@ def get_dict(r,need=[]):
         return z
     else:
         return None
-
+def get_str_time(t):
+    time_array = time.localtime(t)
+    r = time.strftime("%m月%d日 %H:%M", time_array)
+    return r
 
 # 装饰器
 
@@ -365,15 +368,35 @@ def get_notice():
         content = ""
     return re({"content":content})
     
-@app.route("/update_notice",methods=["GET","POST"])
-def update_notice():
-    loc_id = request.form["loc_id"]
+@app.route("/new_notice",methods=["GET","POST"])
+@check_session
+def new_notice():
+    loc_objid = request.form["loc_id"]
+    loc_info = get_dict(loc_db.find_one(ObjectId(loc_objid)))
+    loc_id = loc_info["id"]
     content = request.form["content"]
-    print content
-    notice_db.update({"loc_id":loc_id},{"$set":{"content":content}})
+    title = request.form["title"]
+    body = insert_cover("notices",{
+        "content":content,
+        "title":title,
+        "loc_id":loc_id,
+        "loc_objid":loc_objid,
+        "state":0
+        })
+
+    notice_db.insert(body)
+    return re({})
+@app.route("/get_notices",methods=["GET","POST"])
+@check_session
+def get_notices():
+    loc_id = request.form["loc_id"]
+    notice = get_list(notice_db.find({"loc_objid":loc_id,"state":0}))
+    for x in notice:
+        x["time"] = get_str_time(x['create_time'])
+    return re({"notices":notice})
     
 
-    return re({})
+
 @app.route("/get_group_info",methods=["GET","POST"])
 @check_session
 def get_group_info():
@@ -495,6 +518,20 @@ def del_order():
 def quiet():
     del session['username']
 
+    return re({})
+    
+@app.route("/update_notice",methods=["GET","POST"])
+@check_session
+def update_notice():
+    print request.form
+    type_ = request.form['type']
+    if "notice" in request.form and type_ == "update":
+        notice = json.loads(request.form['notice'])
+        print notice['id'],type(notice['id'])
+        notice_db.update({'id':notice['id']},{"$set":notice})
+    elif 'id' in request.form and type_ == "delate":
+        id_ = int(request.form['id'])
+        notice_db.update({'id':id_},{"$set":{"state":1}})
     return re({})
     
 

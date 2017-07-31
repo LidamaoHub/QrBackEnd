@@ -12,8 +12,8 @@
                     <li :class="{'active':$route.name=='LocReward'}">
                         <router-link to="reward">捐赠管理</router-link>
                     </li>
-                    <li :class="{'active':$route.name=='LocOrder'}">
-                        <router-link to="order">订单管理</router-link>
+                    <li :class="{'active':$route.name=='LocNotice'}">
+                        <router-link to="notice">公告管理</router-link>
                     </li>
                     <li :class="{'active':$route.name=='MallProduct'}">
                         <router-link to="product">商品列表</router-link>

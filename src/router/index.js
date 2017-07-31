@@ -6,7 +6,7 @@ import Vuex from 'vuex'
 import LocEdit from '../view/index/edit'
 import LocIndex from '../view/index/index'
 import LocReward from '../view/index/reward'
-import LocOrder from '../view/index/order'
+import LocNotice from '../view/index/notice'
 import LocTag from '../view/index/tag'
 import LocTopic from '../view/index/topic'
 import LocBlack from '../view/index/blackroom'
@@ -60,9 +60,9 @@ export default new Router({
                     component: LocReward
                 },
                 {
-                    path: 'order',
-                    name: 'LocOrder',
-                    component: LocOrder
+                    path: 'notice',
+                    name: 'LocNotice',
+                    component: LocNotice
                 },
                 {
                     path: 'tag',
